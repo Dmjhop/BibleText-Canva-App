@@ -136,7 +136,13 @@ export const App = () => {
       { value: 65, label: "Jude" },
       { value: 66, label: "Revelation" },
     ]
-    let verseRef = `${book} ${chapter}:${verse} ${version}`
+    let bookName
+    for (let i = 0; i < booksOfBible.length; i++) {
+      if (booksOfBible[i].value === book) {
+        bookName = booksOfBible[i].label
+      }
+    }
+    let verseRef = `${bookName} ${chapter}:${verse} ${version}`
     addElement({
       type: "text",
       children: [`${verseRef}`],
@@ -316,6 +322,17 @@ export const App = () => {
               "Button text to do something cool. Creates a new text element when pressed.",
           })}
         </Button>
+        <Text>
+          <FormattedMessage
+            defaultMessage='
+              Note: Depending on the Verse you generate, it might still come with the associated title of that passage of scripture or a "<br/>". It is a bug being worked on at the moment. :)
+            '
+            description="Instructions for how to make changes to the app. Do not translate <code>src/app.tsx</code>."
+            values={{
+              code: (chunks: any) => <code>{chunks}</code>,
+            }}
+          />
+        </Text>
       </Rows>
     </div>
   )
