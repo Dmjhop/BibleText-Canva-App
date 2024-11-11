@@ -21,12 +21,13 @@ export const App = () => {
   const addElement = useAddElement()
   let [loading, setLoading] = useState(true)
   let [error, setError] = useState(null)
-  let [version, setVersion] = useState("")
-  let [book, setBook] = useState(0)
-  let [chapter, setChapter] = useState(0)
-  let [verse, setVerse] = useState(0)
+  let [version, setVersion] = useState("NIV")
+  let [book, setBook] = useState(1)
+  let [chapter, setChapter] = useState(1)
+  let [verse, setVerse] = useState(1)
+  // let [empty, setEmpty] = useState("Good")
 
-  // ! Get Bible Verse!!
+  // ! GET BIBLE VERSE CONTENT
 
   async function getfetchVerse() {
     console.log(
@@ -62,10 +63,15 @@ export const App = () => {
       console.log(`${coolResult}`)
     } catch (error) {
       setError(error)
+      if (error instanceof CanvaError) {
+        console.log("CanvaError:", error.code)
+      }
     } finally {
       setLoading(false)
     }
   }
+
+  // ! GET BIBLE VERSE REFERENCE
 
   async function getVerseReference() {
     const booksOfBible = [
@@ -150,6 +156,10 @@ export const App = () => {
     console.log(verseRef)
   }
 
+  // if (version === "" || book === 0 || chapter === 0 || verse === 0) {
+  //   setEmpty("Empty")
+  // }
+
   // // !Final Verse API Call
 
   const intl = useIntl()
@@ -170,7 +180,7 @@ export const App = () => {
         </Text>
         {/* Bible Version Rendering */}
         <FormField
-          label="Version?"
+          label="Version"
           value={version}
           description="Being updated over time :)"
           control={(props) => (
@@ -190,7 +200,7 @@ export const App = () => {
           )}
         />
         <FormField
-          label="Book?"
+          label="Book"
           description=""
           value={book}
           control={(props) => (
@@ -273,7 +283,7 @@ export const App = () => {
           )}
         />
         <FormField
-          label="Chapter?"
+          label="Chapter"
           description=""
           value={chapter}
           control={(props) => (
@@ -290,7 +300,7 @@ export const App = () => {
           )}
         />
         <FormField
-          label="Verse?"
+          label="Verse"
           description=""
           value={verse}
           control={(props) => (
@@ -308,14 +318,22 @@ export const App = () => {
           )}
         />
 
-        <Button variant="primary" onClick={getfetchVerse} stretch>
+        <Button
+          variant="primary"
+          // disabled={empty === "Empty"}
+          onClick={getfetchVerse}
+          stretch>
           {intl.formatMessage({
             defaultMessage: "Generate Bible Verse",
             description:
               "Button text to do something cool. Creates a new text element when pressed.",
           })}
         </Button>
-        <Button variant="primary" onClick={getVerseReference} stretch>
+        <Button
+          variant="primary"
+          // disabled={empty === "Empty"}
+          onClick={getVerseReference}
+          stretch>
           {intl.formatMessage({
             defaultMessage: "Generate Verse Reference",
             description:
