@@ -4,6 +4,12 @@ import { requestOpenExternalUrl } from "@canva/platform";
 import { FormattedMessage, useIntl } from "react-intl";
 import * as styles from "styles/components.css";
 import { useFeatureSupport } from "@canva/app-hooks";
+import { SegmentedControl, FormField } from "@canva/app-ui-kit";
+import { useState } from "react";
+import { BIBLE_VERSIONS, type BibleVersionId } from "./constants";
+import { usfmToReference } from "./usfm";
+import { BOOK_LIST } from "./usfm";
+import { fetchVerse } from "./api";
 
 export const DOCS_URL = "https://www.canva.dev/docs/apps/";
 
@@ -19,7 +25,7 @@ export const App = () => {
 
     addElement({
       type: "text",
-      children: ["Hello world!"],
+      children: ["I am changing :) and work"],
     });
   };
 
@@ -34,6 +40,21 @@ export const App = () => {
   };
 
   const intl = useIntl();
+
+  const [bibleId, setBibleId] = useState<BibleVersionId>(111);
+  const [book, setBook] = useState("JHN");
+  const [chapter, setChapter] = useState("3");
+  const [verse, setVerse] = useState("16");
+  // const version = BIBLE_VERSIONS.find((v) => v.id === bibleId);
+  // const reference = usfmToReference(usfm, version.label);
+
+  async function handleFetchVerse() {
+    const usfm = `${book}.${chapter}.${verse}`;
+    const data = await fetchVerse(bibleId, usfm);
+  }
+
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className={styles.scrollContainer}>
@@ -79,6 +100,64 @@ export const App = () => {
               "Button text to open Canva Apps SDK docs. Opens an external URL when pressed.",
           })}
         </Button>
+        <FormField
+          label="Translation"
+          control={() => (
+            <SegmentedControl
+              value={String(bibleId)}
+              options={BIBLE_VERSIONS.map((v) => ({
+                label: v.label,
+                value: String(v.id),
+              }))}
+              onChange={(value) => setBibleId(Number(value) as BibleVersionId)}
+            />
+          )}
+        />
+        <FormField
+          label="Book"
+          description=""
+          value={book}
+          control={(props) => (
+            <Select
+              {...props}
+              id="chosenBook"
+              onChange={(value) => {
+                setBook(value);
+                console.log(value);
+              }}
+              options={BOOK_LIST.map((b) => ({
+                value: b.code,
+                label: b.name,
+              }))}
+            />
+          )}
+        />
+        <FormField
+          label="Chapter"
+          description=""
+          value={chapter}
+          control={(props) => (
+            <NumberInput
+              min={1}
+              max={150}
+              value={chapter}
+              onChange={(value) => setChapter(Number(value))}
+            />
+          )}
+        />
+        <FormField
+          label="Verse"
+          description=""
+          value={verse}
+          control={(props) => (
+            <NumberInput
+              min={1}
+              max={176}
+              value={verse}
+              onChange={(value) => setVerse(Number(value))}
+            />
+          )}
+        />
       </Rows>
     </div>
   );
