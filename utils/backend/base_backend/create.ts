@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
-import * as express from "express";
-import * as http from "http";
-import * as https from "https";
-import * as fs from "fs";
-import type { Request, Response, NextFunction } from "express";
+import { TokenVerificationError } from "@canva/app-middleware";
 import debug from "debug";
+import express from "express";
+import type { NextFunction, Request, Response } from "express";
+import fs from "fs";
+import http from "http";
+import https from "https";
 
 const serverDebug = debug("server");
 
@@ -41,12 +42,12 @@ export function createBaseServer(router: express.Router): BaseServer {
   app.disable("x-powered-by");
 
   // Health check endpoint
-  app.get("/healthz", (req, res: Response) => {
+  app.get("/healthz", (req, res) => {
     res.sendStatus(200);
   });
 
   // logging middleware
-  app.use((req: Request, res: Response, next: NextFunction) => {
+  app.use((req, _res, next) => {
     serverDebug(`${new Date().toISOString()}: ${req.method} ${req.url}`);
     next();
   });
@@ -62,7 +63,22 @@ export function createBaseServer(router: express.Router): BaseServer {
   });
 
   // default error handler
-  app.use((err, req, res, next) => {
+  app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+    // Handle authentication errors from @canva/app-middleware
+    if (err instanceof TokenVerificationError) {
+      res.status(err.statusCode).json({
+        error: err.code,
+        message: err.message,
+      });
+      return;
+    }
+
+    if (err.name === "JwksError") {
+      console.error(
+        "\x1b[38;5;208m\nCheck that CANVA_APP_ID in your .env matches the app you are currently previewing in Canva.\n\x1b[0m",
+      );
+    }
+
     console.error(err.stack);
     res.status(500).send({
       error: "something went wrong",

@@ -1,17 +1,4 @@
-import path from "node:path"
-import { fileURLToPath } from "node:url"
-import js from "@eslint/js"
-import { FlatCompat } from "@eslint/eslintrc"
-import general from "./conf/eslint-general.mjs"
-import i18n from "./conf/eslint-i18n.mjs"
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-})
+import canvaPlugin from "@canva/app-eslint-plugin";
 
 export default [
   {
@@ -20,35 +7,19 @@ export default [
       "**/dist",
       "**/*.d.ts",
       "**/*.d.tsx",
-      "**/sdk",
-      "**/internal",
       "**/*.config.*",
+      "templates/**/*",
     ],
   },
-  ...compat.extends(
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/strict",
-    "plugin:@typescript-eslint/stylistic",
-    "plugin:react/recommended",
-    "plugin:jest/recommended"
-  ),
-  ...general,
-  ...i18n.map((config) => ({
-    ...config,
+  ...canvaPlugin.configs.apps_no_i18n,
+  {
     files: [
       "src/**/*",
-      "examples/i18n/**/*",
-      "cli/common/templates/gen_ai/**/*",
-      "cli/common/templates/hello_world/**/*",
+      // Currently only the localization examples are localized and following the
+      // formatjs guidelines. If more examples are localized, this list should be
+      // updated:
+      "examples/localization/**/*",
     ],
-  })),
-  tseslint.config({
-    rules: {
-      // Note: you must disable the base rule as it can report incorrect errors
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "error",
-    },
-  }),
-]
+    ...canvaPlugin.configs.apps_i18n,
+  },
+];

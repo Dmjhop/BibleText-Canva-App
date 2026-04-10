@@ -5,27 +5,34 @@ const { compilerOptions } = require("./tsconfig.json");
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-  testRegex: "(/tests/.*|(\\.|/)(tests))\\.tsx?$",
+  testRegex: "(/(tests|__tests__)/.*|(\\.|/)(tests))\\.tsx?$",
   modulePaths: [compilerOptions.baseUrl],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
   transform: {
     ".+\\.(css)$": "<rootDir>/node_modules/jest-css-modules-transform",
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        astTransformers: {
+          before: [
+            {
+              path: "@formatjs/ts-transformer/ts-jest-integration",
+              options: {
+                overrideIdFn: "[sha512:contenthash:base64:6]",
+                ast: true,
+              },
+            },
+          ],
+        },
+      },
+    ],
   },
   transformIgnorePatterns: ["node_modules"],
-  testPathIgnorePatterns: ["/node_modules/", "/dist/"],
-  globals: {
-    "ts-jest": {
-      astTransformers: {
-        before: [
-          {
-            path: "@formatjs/ts-transformer/ts-jest-integration",
-            options: {
-              overrideIdFn: "[sha512:contenthash:base64:6]",
-              ast: true,
-            },
-          },
-        ],
-      },
-    },
-  },
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/dist/",
+    "/templates/",
+    "/reference_apps/",
+  ],
+  setupFiles: ["<rootDir>/jest.setup.ts"],
 };

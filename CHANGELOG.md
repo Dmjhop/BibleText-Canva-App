@@ -1,5 +1,802 @@
 # Changelog
 
+## 2026-04-09
+
+### 🧰 Added
+
+- Added automated start script tests to all templates and reference apps, bringing them in line with the root starter kit. These proactive health checks verify the development server starts correctly for all environments.
+
+### 🔧 Changed
+
+- Updated backend example READMEs to document the `CANVA_APP_ID` .env requirement, and improved server error messages when the app ID is misconfigured.
+- Replaced `ts-node` with `esbuild-register` for TypeScript webpack config loading.
+- Upgraded `@canva/intents` to `2.4.0`.
+- Upgraded preview version of `@canva/intents` to `2.4.1-beta.0`.
+
+## 2026-03-23
+
+### 🔧 Changed
+
+- Updated supported Node.js versions to `^20 || ^22 || ^24`, dropping Node.js 18.
+- Updated `start` and `postinstall` scripts to run with `tsx`.
+
+## 2026-03-19
+
+### 🔧 Changed
+
+- Upgraded `@canva/user` to `2.2.0`.
+- Renamed MCP server config from `canva` to `canva-dev`.
+- Upgraded `@canva/app-components` to `2.2.0`.
+- Dependencies audit bringing modules up to date:
+
+```text
+@types/jest                              29.5.14   ->   30.0.0
+jest                                      29.7.0   ->   30.2.0
+jest-environment-jsdom                    29.7.0   ->   30.2.0
+terser-webpack-plugin                     5.3.14   ->   5.4.0
+```
+
+## 2026-03-12
+
+### 🧰 Added
+
+- Added bulk create and publishing capabilities to the Real Estate MLS reference app
+- Add example for invocationContext
+- Updated the `content_publisher` template to use the new invocationContext prop, for more information on the invocationContext refer to [prepareContentPublisher docs](https://www.canva.dev/docs/apps/api/latest/intents-content-prepare-content-publisher/)
+
+### 🔧 Changed
+
+- Removed barrel files from gen_ai and data_connector templates
+- Upgraded preview version of `@canva/intents` to `2.2.1-beta.1`.
+- Upgraded `@canva/app-ui-kit` to `5.7.0`.
+
+## 2026-02-26
+
+### 🔧 Changed
+
+- Upgraded preview version of `@canva/intents` to `2.2.1-beta.0`.
+
+## 2026-02-23
+
+### 🔧 Changed
+
+- Upgraded `@canva/user` to `2.1.3`.
+- Upgraded `@canva/app-ui-kit` to `5.6.0`.
+- Dependencies audit bringing modules up to date:
+
+```
+webpack                            5.99.9  →   5.105.2
+```
+
+### 🐞 Fixed
+
+- The DAM template showed a React peer dependency warning on install.
+
+## 2026-02-19
+
+### 🔧 Changed
+
+- Upgraded `@canva/error` to `2.2.1`.
+- Upgraded `@canva/platform` to `2.2.2`.
+
+### 🐞 Fixed
+
+- Removed unused backend utility files from the gen_ai template and fixed READMEs for content_publisher, data_connector, and gen_ai templates.
+
+## 2026-02-12
+
+### 🔧 Changed
+
+- Upgraded `@canva/design` to `2.8.0`.
+- Updated intent_navigation example to use current versions of @canva/design and @canva/intents
+- Upgraded preview `@canva/intents` to `2.1.3-beta.0`.
+- Upgraded `@canva/intents` to `2.2.0`.
+- Updated preview package versions to be exact versions, without caret (^), to resolve an issue where during installs npm would resolve the stable release instead of the prerelease version.
+
+## 2026-02-05
+
+### 🔧 Changed
+
+- Upgraded preview version of `@canva/design` to `2.7.6-beta.2`.
+- Upgraded `@canva/intents` to `2.1.2`.
+
+## 2026-02-03
+
+### 🧰 Added
+
+- Added mocking for `@canva/intents` package in `jest.setup.ts`
+
+### 🔧 Changed
+
+- Updated Content Publisher intent examples to use `@canva/intents` `2.1.0`
+
+## 2026-02-02
+
+### 🧰 Added
+
+- Added `examples/design_interaction/template_metadata` to demonstrate the functionality of the preview getDesignTemplateMetadata API.
+- Added the content_publisher template
+
+### 🔧 Changed
+
+- Updated `content_publisher_intent` example to use helper function to propagate changes to canva from the app rather than a useEffect
+- Upgraded `@canva/intents` to `2.1.0`.
+
+## 2026-01-29
+
+### 🔧 Changed
+
+- Updated examples and templates to use `@canva/app-ui-kit` component props instead of CSS classes for layout styling.
+- Upgraded `@canva/design` to `2.7.6-beta.1`.
+- Upgraded `@canva/user` to `2.1.3-beta.0`.
+
+## 2026-01-22
+
+### 🔧 Changed
+
+- Upgraded `@canva/platform` to `2.2.1`.
+- Upgraded `@canva/error` to `2.2.0`.
+
+### 🗑️ Removed
+
+- Removed `jwt_middleware` and custom design token verification code, in favour of the brand new `@canva/app-middleware` SDK.
+
+## 2026-01-14
+
+### 🧰 Added
+
+- Templates from the Canva CLI are now available in the starter kit in the /templates directory
+
+### 🔧 Changed
+
+- Moved `/assets` directory into `/examples`, since they're only used as sample data.
+- Upgraded `@canva/app-ui-kit` to `5.5.0`.
+- Upgraded `@canva/cli` to `1.14.0`.
+- Dependencies audit bringing modules up to date:
+
+```text
+jsonwebtoken                               9.0.2   ->   9.0.3
+react-router-dom                           7.8.2   ->   7.12.0
+```
+
+### 🐞 Fixed
+
+- Fixed the case in the titles of the "Multi-account authentication" and "Multi-provider authentication" example apps to be consistent with the other examples.
+
+## 2026-01-08
+
+### 🧰 Added
+
+- Added `examples/fundamentals/multi_provider_authentication` to demonstrate multi-provider OAuth authentication.
+
+### 🔧 Changed
+
+- Upgraded `@canva/user` to `2.1.2`.
+- Upgraded `@canva/app-ui-kit` to `5.4.0`.
+- Upgraded `react` and `react-dom` to `19.2.3`.
+- Upgraded `@canva/asset` to `2.3.0`.
+
+## 2025-12-18
+
+### 🧰 Added
+
+- Add `reference-apps` directory containing the Real Estate MLS reference app. Reference apps are complete, working examples that demonstrate how to build apps for specific industries or use cases.
+- Add example app for URL Expander Intent.
+
+### 🔧 Changed
+
+- Upgraded `@canva/asset` to `2.2.2`.
+- Updated `examples/intents/content_publisher_intent` to use correct localization patterns.
+
+### 🗑️ Removed
+
+- Cleanup unnecessary `utils` alias in webpack config.
+
+### 🐞 Fixed
+
+- Renamed some intent example apps to improve documentation consistency.
+- Fixed broken infinite scroll in `examples/masonry`.
+- Added missing JWT verification middleware in digital asset example.
+
+## 2025-12-11
+
+### 🧰 Added
+
+- Add `examples/intents/intent_navigation` to demonstrate launching bulk create and publish actions from within an app
+
+### 🔧 Changed
+
+- Upgraded `@canva/design` to `v2.7.5` and beta examples to use `v2.7.6-beta.0`.
+- Updated `react` and `react-dom` to `19.2.1`.
+- Upgraded `@canva/user` to `2.1.2-beta.1` for the `multi_account_authentication` example.
+- Upgraded `@canva/app-i18n-kit` to `1.2.0`.
+- Upgraded `@canva/app-ui-kit` to `5.3.0`.
+
+## 2025-12-08
+
+### 🧰 Added
+
+- Added `examples/intents/implement_multiple_intents` to demonstrate how an app can implement multiple intents together.
+- Added `examples/fundamentals/multi_account_authentication` as a basic implementation of the multi-account authentication
+
+### 🔧 Changed
+
+- Updated examples to use the Design Editor intent (now recommended). See the [Design Editor Intent Migration Guide](https://www.canva.dev/docs/apps/upgrades-and-migrations/design-editor-migration-guide/) to migrate existing apps.
+- Updated `body-parser`, `express`, `js-yaml` and `node-forge` dev/transitive dependencies
+- Moved `use_table_hook.ts` to `utils/use_table_hook.ts`
+- Upgraded `@canva/intents` to `2.0.2-beta.3`.
+
+### 🗑️ Removed
+
+- Removed `use_add_element` hook in favour of a more accurate inline implementation.
+- Removed the React utility hooks from `/utils` in favour of our brand new [@canva/app-hooks](https://www.npmjs.com/package/@canva/app-hooks) SDK.
+
+### 🐞 Fixed
+
+- Updated `caniuse-lite` to version `1.0.30001757` to suppress a warning shown when starting a development server.
+
+## 2025-11-20
+
+### 🔧 Changed
+
+- Make `tsconfig` stricter to increase runtime type safety.
+- Upgraded `@canva/design` for `examples/design_interaction/design_audit` to `2.7.4-beta.2`.
+
+### 🐞 Fixed
+
+- Removed incorrect `node_modules/@types/` include from tsconfig.json.
+
+## 2025-11-13
+
+### 🧰 Added
+
+- Added `examples/intents/content_publisher_intent` as a basic implementation of the content publisher intent.
+
+### 🔧 Changed
+
+- Set `moduleResolution` to `bundler`, enabled `esModuleInterop`, and updated necessary import statements.
+- Updated `@canva/app-ui-kit` to version `5.2.1`.
+
+## 2025-11-06
+
+### 🔧 Changed
+
+- Clarified preview app link text to indicate clear CTA
+
+### 🐞 Fixed
+
+- Updated `copy_env.ts` script to not throw if a template .env file does not exist
+
+## 2025-10-23
+
+### 🔧 Changed
+
+- Updated `@canva/app-ui-kit` to `v5.2.0`.
+
+### 🐞 Fixed
+
+- Fixed some UI issues in the digital_asset_management example by updating `@canva/app-components` to `v2.1.0`.
+
+## 2025-10-16
+
+### 🔧 Changed
+
+- Updated @canva/app-ui-kit to 5.1.0 and React to 19.2.0.
+
+### 🐞 Fixed
+
+- Updated `react` dependencies to use ^ (compatible with) to reduce the impact of `@canva package` updates with react peer dependencies.
+
+## 2025-10-13
+
+### 🧰 Added
+
+- Added `examples/design_interaction/design_audit` to demonstrate the preview multi-page Design Editing API functionality.
+
+### 🔧 Changed
+
+- Update `testRegex` in jest config to include `__tests__`
+- Upgraded @canva/app-eslint-plugin to 1.0.0-beta.7.
+- Updated `@canva/design` from `2.7.2` to `2.7.3`, fixing minor inaccuracies in type definitions.
+
+### 🐞 Fixed
+
+- Fixed a bug that causes app build to break when `BACKEND_HOST` is undefined.
+
+## 2025-10-09
+
+### 🐞 Fixed
+
+- Updated @canva/app-ui-kit to v5.0.2 to incorporate a bug fix and updated tokens.
+
+## 2025-10-01
+
+### 🔧 Changed
+
+- Refactored the `drag_and_drop/drag_and_drop_text` example to improve readability and better showcase the API.
+- Updated React to v19 and `@canva/app-ui-kit` to v5.0.0
+- Upgraded @canva/app-components to from `1.3.0` to `1.4.0`.
+- Upgraded @canva/app-ui-kit from `4.10.0` to `5.0.0`. See the App UI Kit changelog for full details https://www.canva.dev/docs/apps/app-ui-kit/changelog/
+
+## 2025-09-16
+
+### 🔧 Changed
+
+- Updated example apps comments and READMEs based on the AGENTS.md file.
+- Refactored the `assets_and_media/image_editing_overlay` example slightly to improve readability and better showcase the API.
+
+## 2025-09-03
+
+### 🔧 Changed
+
+- Updated `@canva/app-eslint-plugin` to `1.0.0-beta.4`
+- Updated `typescript` to `5.9.2`
+- Dependencies audit bringing modules up to date:
+
+```text
+  @ngrok/ngrok                               1.5.1   ->   1.5.2
+  @testing-library/dom                      10.4.0   ->   10.4.1
+  @types/node-fetch                         2.6.12   ->   2.6.13
+  @types/node-forge                         1.3.11   ->   1.3.14
+  cssnano                                    7.0.7   ->   7.1.1
+  eslint                                    9.30.0   ->   9.34.0
+  globals                                   16.2.0   ->   16.3.0
+  mini-css-extract-plugin                    2.9.2   ->   2.9.4
+  ts-jest                                   29.4.0   ->   29.4.1
+  ts-loader                                  9.5.2   ->   9.5.4
+  typescript                                 5.8.2   ->   5.9.2
+  webpack                                   5.99.9   ->   5.101.3
+```
+
+### 🐞 Fixed
+
+- Upgraded `@canva/app-eslint-plugin` to version `1.0.0-beta.5` to fix a bug where the types were not being referenced correctly.
+
+## 2025-08-21
+
+### 🧰 Added
+
+- Added an optional step to setup the [Canva Dev MCP Server](https://www.canva.dev/docs/apps/mcp-server/) in `README.md`.
+- Added an `AGENTS.md` file to the project to provide instructions for AI agents such as Amp, Codex, Jules, etc...
+
+### 🐞 Fixed
+
+- Replaced a broken YouTube video used for demonstrating embeds in the example apps.
+- Updated the `README.md` and other documentation to reflect the new location of `CANVA_APP_ID` and `CANVA_APP_ORIGIN` environment variables in the Developer Portal.
+
+### 🔧 Changed
+
+- `examples`
+  - Grouped `/examples` by functionality to help with discoverability. Updated directory structure and updated the start script for the change.
+  - All examples now have README file that explains the example and provides usage information.
+  - Renamed `/text_translate` example to `text_translation`.
+  - Updated `examples/design_token` and `examples/page_addition` to use `design.getDesignMetadata` as `design.getDefaultPageDimensions` is deprecated.
+  - Updated the intro wording for the `app_elements` examples with a minor text edit.
+  - Updated the `design_interaction/page_addition` example's YouTube video to replaced it with a more appropriate one.
+  - Updated the `/design_interaction/page_addition/` example to not use the deprecated `title` property, and use `ariaLabel` instead.
+  - Updated the `ui/masonry` example to replace the Picsum API with some static images from <https://www.canva.dev/example-assets/images/>.
+- Upgraded `@canva/app-components` to version `1.3.1`.
+
+### ⛔️ Deprecated
+
+- `@canva/design`
+  - Deprecate `design.getDefaultPageDimensions`, use `design.getDesignMetadata` instead. [See the documentation](https://www.canva.dev/docs/apps/api/latest/design-get-design-metadata/).
+
+## 2025-07-23
+
+### 🐞 Fixed
+
+- Fixed the `eslint.config.mjs` file to use the correct `apps_i18n` config.
+
+### 🔧 Changed
+
+- Upgraded `@canva/design` to version `2.7.0`, [`getDesignMetadata`](https://www.canva.dev/docs/apps/api/latest/design-get-design-metadata/) method is now generally available.
+- Upgraded `@canva/asset` to version `2.2.1`, changes includes TSDoc improvements.
+- Upgraded `@canva/user` to version `2.1.1`, changes includes TSDoc improvements.
+- Upgraded `@canva/app-i18n-kit` to version `1.0.3`.
+- Improved code organization by sorting imports consistently across all files.
+- `examples`
+  - Simplify `examples/data_connector_intent` by refactoring to use static data structure.
+- Dependencies audit bringing modules up to date:
+
+```text
+  @formatjs/cli                             6.3.15   ->   6.7.2
+  @formatjs/ts-transformer                 3.13.27   ->   3.14.0
+  @ngrok/ngrok                               1.4.1   ->   1.5.1
+  @testing-library/react                    16.1.0   ->   16.3.0
+  @types/jsonwebtoken                        9.0.7   ->   9.0.10
+  @types/node                              20.10.0   ->   20.19.2
+  @types/webpack-env                        1.18.5   ->   1.18.8
+  cssnano                                    7.0.6   ->   7.0.7
+  debug                                      4.4.0   ->   4.4.1
+  dotenv                                    16.4.7   ->   16.6.0
+  eslint                                    9.23.0   ->   9.29.0
+  exponential-backoff                        3.1.1   ->   3.1.2
+  globals                                  15.14.0   ->   16.2.0
+  jwks-rsa                                   3.1.0   ->   3.2.0
+  prettier                                   3.4.2   ->   3.6.1
+  terser-webpack-plugin                     5.3.11   ->   5.3.14
+  ts-jest                                   29.2.5   ->   29.4.0
+  typescript                                 5.5.4   ->   5.8.2
+  webpack                                   5.97.1   ->   5.99.9
+  webpack-cli                                5.1.4   ->   6.0.1
+```
+
+## 2025-06-26
+
+### 🧰 Added
+
+- `@canva/design`
+  - `openDesign`:
+    - `helpers`: New async helper methods `group` and `ungroup`. See the documentation on [PageHelpers](https://www.canva.dev/docs/apps/api/latest/design-types-page-helpers/) for more information.
+- `@canva/design@beta`
+  - Added the [`getDesignMetadata`](https://www.canva.dev/docs/apps/api/preview/design-get-design-metadata/) method, which allows apps to get information about the design.
+  - Added a new content type to the [`EditContent`](https://www.canva.dev/docs/apps/api/preview/design-edit-content/) method, enabling apps to edit image and video fill content within a page.
+- `@canva/platform` updated to version `2.2.0`.
+  - Added the `notification.addToast`: [Notification API](https://www.canva.dev/docs/apps/api/latest/platform-notification-add-toast/) which allows apps to display lightweight toast messages in the Canva editor.
+- `examples`
+  - Added `examples/notification` as a basic implementation of the new `@canva/platform` [`notification.addToast()`](https://www.canva.dev/docs/apps/api/latest/platform-notification-add-toast/) API.
+  - Added `examples/design_metadata` as a basic implementation to demonstrate the new [`getDesignMetadata`](https://www.canva.dev/docs/apps/api/preview/design-get-design-metadata/) method.
+
+### 🔧 Changed
+
+- Upgraded `@canva/app-ui-kit` to version `4.10.0`. Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/) for the list of changes.
+- Upgraded `webpack-dev-server` to version `5.2.2` from `5.2.0` and adjusted the webpack configuration to work with the new version.
+- `@canva/design` updated to version `2.6.0`.
+  - `openDesign`: [Design Editing API](https://www.canva.dev/docs/apps/api/latest/design-open-design/) is out of preview and Generally Available!
+    - `openDesign` function signature change:
+      - Before: `openDesign({ type: 'current_page' }, (draft: { page, save }, helpers) => {})`.
+      - After: `openDesign({ type: 'current_page' }, (session: { page, sync, helpers }) => {})`.
+        - `save` is superseded by `sync`. Unlike `save`, `sync` can be called multiple times as needed.
+    - `page`:
+      - Renamed page type: `fixed` → `absolute`.
+      - New page type: `unsupported`, which represents pages that are not `absolute` (previously `fixed`).
+    - `helpers`:
+      - Renamed `elementBuilder` to `elementStateBuilder`.
+        - `cloneElement` was removed as part of the refactor.
+    - Fills:
+      - `media` and `color` are superseded by `mediaContainer` and `colorContainer`.
+        - Read: `xxxContainer.ref`.
+        - Write: `xxxContainer.set(...)`.
+      - For shape path fills, `isMediaEditable` introduced to indicate editability.
+- `examples`:
+  - Updated `examples/authentication` to better align with the API spec.
+  - Updated `examples/design_editing` to reflect the latest `@canva/design` changes.
+
+## 2025-06-12
+
+### 🧰 Added
+
+- [Canva Dev MCP](https://www.canva.dev/blog/developers/canva-dev-mcp-server/) config in `.cursor/mcp.json` `.vscode/mcp.json`.
+
+### 🔧 Changed
+
+- Added the new `@canva/intents` package at version `2.0.0` and updated `examples/data_connector_intent` to match
+
+## 2025-05-19
+
+### 🧰 Added
+
+- Added `examples/data_connector_intent` as a basic implementation of the data connector intent.
+
+## 2025-04-30
+
+### 🔧 Changed
+
+- Upgraded `@canva/app-ui-kit` to version `4.9.0` Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/) for the list of changes.
+- Updated `eslint`, `eslint-plugin-unicorn`, and `typescript-eslint`.
+- Updated `@canva/app-eslint-plugin` to `1.0.0-beta.3`
+- `examples/digital_asset_management`:
+  - Upgraded `@canva/app-components` to version `1.3.0`. Please see the [changelog](https://www.canva.dev/docs/apps/app-components/changelog/) for the list of changes.
+  - Reinforce i18n eslint rules on `digital_asset_management` app example.
+- Upgraded `@canva/asset` to version `2.2.0` from `2.1.0`
+  - Now supporting `video/x-msvideo` as an allowed MIME type
+- Updated `@canva/design` to version `2.4.1` from `2.4.0` to fix a bug affecting unit tests without mocks.
+
+## 2025-03-24
+
+### 🧰 Added
+
+- Added the newly created `@canva/app-eslint-plugin` [library](https://www.npmjs.com/package/@canva/app-eslint-plugin).
+
+### 🗑️ Removed
+
+- Removed local eslint configs and rules in favour of `@canva/app-eslint-plugin`.
+
+## 2025-02-20
+
+### 🧰 Added
+
+- Added functionality to the start script:
+  - the `preview` flag controls launching the app preview in Canva. Use `npm run start:preview` to automatically open the `PreviewUrl` when you start your app.
+  - the `override-frontend-port` can specify the port number that the frontend server runs on, overriding the `.env` file config.
+  - `scripts/start/tests/start.tests.ts` tests that the script launches correctly
+- `@canva/design`:
+  - Latest version of the App Element API is out of preview and Generally Available. This version enables atomic and predictable operations that are no longer tied current selection. To learn more, see [App Elements](https://www.canva.dev/docs/apps/creating-app-elements/).
+- `examples`
+  - Updated all example apps that use app element API to use the latest version:
+    - `examples/app_element_children`
+    - `examples/app_embed_elements`
+    - `examples/app_image_elements`
+    - `examples/app_shape_elements`
+    - `examples/app_text_elements`
+    - `examples/app_video_elements`
+    - `examples/positioning_elements`
+  - Removed `examples/beta_app_image_elements` as the updated App Element API is now Generally Available and `examples/app_image_elements` has been updated to use the latest API.
+
+### 🔧 Changed
+
+- Upgraded `@canva/app-ui-kit` to version `4.8.0` Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/) for the list of changes.
+
+## 2025-02-05
+
+### 🔧 Changed
+
+- Upgraded `@canva/app-ui-kit` to version `4.7.1` Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/) for the list of changes.
+- Introduced a new `eslint` rule to prevent using `localStorage` or `sessionStorage` for storing keys or other sensitive information. If these APIs are used for non-sensitive data, the rule can be ignored using an eslint-disable comment.
+
+## 2025-01-22
+
+### 🔧 Changed
+
+- Upgraded `@canva/app-ui-kit` to version `4.7.0` Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/) for the list of changes.
+- Moved `webpack.config.cjs` to `webpack.config.ts` for type checking.
+- Updated file name casing to be consistent, and added an eslint rule to enforce this
+- Dependencies audit bringing modules up to date:
+
+```text
+  @eslint/js                                9.16.0   →   9.18.0
+  @formatjs/cli                             6.3.14   →   6.3.15
+  @formatjs/ts-transformer                 3.13.26   →  3.13.27
+  @typescript-eslint/eslint-plugin          8.18.0   →   8.20.0
+  @typescript-eslint/parser                 8.18.0   →   8.20.0
+  eslint                                    9.16.0   →   9.18.0
+  eslint-plugin-formatjs                     5.2.8   →    5.2.9
+  eslint-plugin-jest                        28.9.0   →  28.11.0
+  eslint-plugin-react                       7.37.2   →   7.37.4
+  globals                                  15.13.0   →  15.14.0
+  terser-webpack-plugin                     5.3.10   →   5.3.11
+  ts-loader                                  9.5.1   →    9.5.2
+  webpack-dev-server                         5.1.0   →    5.2.0
+```
+
+## 2024-12-19
+
+### 🎁 [Developer Christmas](https://community.canva.dev/t/developer-christmas-2024/5492)
+
+- Exciting new API updates, GA releases and localized DAM apps!
+
+### 🧰 Added
+
+- `@canva/design@beta`
+  - Updated App Element API to enable atomic and predictable operations that are no longer tied current selection. To learn more, see [App Elements](https://www.canva.dev/docs/apps/creating-app-elements/).
+
+### 🔧 Changed
+
+- `@canva/design`:
+  - [Content Query API](https://www.canva.dev/docs/apps/querying/) is out of preview and Generally Available!
+- `examples`
+  - Added a new `beta_app_image_elements` example to demonstrate how to use the new beta App Element API.
+  - `examples/digital_asset_management`:
+    - Upgraded `@canva/app-components` to version `1.1.0`. Please see the [changelog](https://www.canva.dev/docs/apps/app-components/changelog/) for the list of changes.
+    - Added localization.
+    - Updated example backend code structure to be consistent with the Digital Asset Management app generated by `@canva/cli`.
+
+### 🗑️ Removed
+
+- The existing `text_query` example app in favour of the more comprehensive `text_translate` example app
+
+## 2024-12-18
+
+### 🎁 [Developer Christmas](https://community.canva.dev/t/developer-christmas-2024/5492)
+
+- Our latest release today is brimming with enhancements, featuring new props added to your favorite components. 🎨 These updates will bring even more sparkle to your Canva Apps!
+
+### 🔧 Changed
+
+- Upgraded `@canva/app-ui-kit` to version `4.5.0` Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/) for the list of changes.
+
+## 2024-12-17
+
+### 🎁 [Developer Christmas](https://community.canva.dev/t/developer-christmas-2024/5492)
+
+- Previewing is now easier than ever with the `@canva/cli`! Running `npm start` will generate and open a Preview URL in your browser!
+
+### 🧰 Added
+
+- `scripts/start/app_runner.ts`
+  - Generate a Preview URL on app start to preview an app directly within the Canva Editor.
+
+## 2024-12-16
+
+### 🎁 [Developer Christmas](https://community.canva.dev/t/developer-christmas-2024/5492)
+
+- We’re excited to announce that unit testing with the Canva Apps SDK is now simple and straightforward! To learn more, see [Testing apps](https://www.canva.dev/docs/apps/testing/)
+- Added `examples/unit_testing` and updated jest config to demonstrate how to unit test Apps SDK functions with mocks
+
+### 🧰 Added
+
+- Added `.gitattributes` file to enforce consistent LF line endings for text files across all environments. This change ensures cross-platform compatibility and resolves issues with tools like Prettier failing on Windows due to line-ending mismatches.
+
+  The following file types are now normalized to LF line endings `*.css`, `*.ts`, `*.tsx`, `*.json`, `*.js`, and `*.mjs`
+
+- `examples`
+  - Added multiline examples to the `i18n` example to demonstrate how to handle multiline messages.
+  - Added a link to the Apps SDK docs for the hello world example
+  - Added an example app that uses the [Content Query API](https://www.canva.dev/docs/apps/querying) to translate page content.
+
+- `conf`
+  - Added local ESLint rule to flag untranslated user-facing strings in object properties, e.g. `{label: "foo"}`.
+
+### 🔨 Breaking changes
+
+- `@canva/design@beta`
+  - Changed `readContent` method name to `editContent` and updated the options it can accept in order to make the API more intuitive. To learn more, see [Querying Content](https://www.canva.dev/docs/apps/querying).
+
+### 🔧 Changed
+
+- Upgraded `@canva/asset` to version `2.1.0`
+- Upgraded `@canva/design` to version `2.3.0`
+- Upgraded `@canva/error` to version `2.1.0`
+- Upgraded `@canva/platform` to version `2.1.0`
+- Upgraded `@canva/user` to version `2.1.0`
+- Renamed `webpack.config.js` to `webpack.config.cjs`
+- Upgraded `@canva/app-i18n-kit` to version `1.0.2`
+- Dependencies audit bringing modules up to date:
+
+```text
+  @eslint/eslintrc                           3.1.0   →    3.2.0
+  @eslint/js                                9.14.0   →   9.16.0
+  @formatjs/cli                              6.3.8   →   6.3.14
+  @formatjs/ts-transformer                 3.13.22   →  3.13.26
+  @testing-library/react                    16.0.1   →   16.1.0
+  @types/node-fetch                         2.6.11   →   2.6.12
+  @typescript-eslint/eslint-plugin          8.13.0   →   8.18.0
+  @typescript-eslint/parser                 8.13.0   →   8.18.0
+  debug                                      4.3.7   →    4.4.0
+  dotenv                                    16.4.5   →   16.4.7
+  eslint                                    9.14.0   →   9.16.0
+  eslint-plugin-formatjs                     5.2.2   →    5.2.8
+  express                                   4.21.1   →   4.21.2
+  globals                                  15.12.0   →  15.13.0
+  prettier                                   3.3.3   →    3.4.2
+  webpack                                   5.96.1   →   5.97.1
+```
+
+## 2024-11-28
+
+### 🔧 Changed
+
+- Upgraded `@canva/app-ui-kit` to version `4.4.0` Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/) for the list of changes.
+- Upgraded `@canva/app-i18n-kit` to version `1.0.1`
+- Upgraded `react-intl` to version `6.8.7`
+
+## 2024-11-13
+
+### 🧰 Added
+
+- Added tests for the `TableWrapper` sdk, `utils/tests/table_wrapper.tests.ts`.
+- `eslint`
+  - Added arguments to formatjs eslint rules to require string literals for defaultMessage and description.
+    Having variables for defaultMessage and description should not be used because it means formatjs can't generate message ids, and can't extract messages.
+
+    ```jsx
+    // ❌ Not recommended, messages cannot be extracted, and cannot have ids auto-generated.
+    <FormattedMessage defaultMessage={myMessage} .../>
+    //                               ~~~~~~~~~~~
+    // error: "defaultMessage" must be:
+    // - a string literal or
+    // - template literal without variable  eslintformatjs/enforce-default-message
+
+    // ✅ Recommended, messages can be extracted, and have ids auto-generated.
+    <FormattedMessage defaultMessage="My static message" description="My static description"/>
+    ```
+
+    NOTE: If your `FormattedMessage` text should change based on the value of some data,
+    see [this docs section for an example](https://www.canva.dev/docs/apps/localization/#preferred-frontend-localization).
+
+### 🐞 Fixed
+
+- Update `package.json` extract script to use a better file path pattern (`\"src/**/*.{ts,tsx}\"`). The previous path pattern (`src/**/*.{ts,tsx}`) would miss some files.
+
+### 🔧 Changed
+
+- Dependencies audit bringing modules up to date:
+
+```text
+  @canva/design                             2.1.0   →    2.2.1
+  @eslint/js                               9.12.0   →   9.14.0
+  @formatjs/cli                            6.2.12   →    6.3.8
+  @formatjs/ts-transformer                3.13.14   →  3.13.22
+  @types/jest                             29.5.13   →  29.5.14
+  @types/react                            18.3.11   →  18.3.12
+  @typescript-eslint/eslint-plugin          8.9.0   →   8.13.0
+  @typescript-eslint/parser                 8.9.0   →   8.13.0
+  eslint                                   9.12.0   →   9.14.0
+  eslint-plugin-formatjs                    5.0.0   →    5.2.2
+  eslint-plugin-jest                       28.8.3   →   28.9.0
+  eslint-plugin-react                      7.37.1   →   7.37.2
+  globals                                 15.11.0   →  15.12.0
+  mini-css-extract-plugin                   2.9.1   →    2.9.2
+  ts-jest                                  29.2.4   →   29.2.5
+  webpack                                  5.95.0   →   5.96.1
+```
+
+- `@canva/app-ui-kit`
+  - Upgraded `app-ui-kit` to version `4.3.0`. Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/) for the list of changes.
+  - Updated snapshots in `examples/ui_test`.
+
+## 2024-10-30
+
+### 🔧 Changed
+
+- `@canva/app-ui-kit`
+  - Upgraded `app-ui-kit` to version `4.2.0`. Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/) for the list of changes.
+
+## 2024-10-22
+
+### 🧰 Added
+
+- `examples`
+  - Added an example to demonstrate [adding videos](https://www.canva.dev/docs/apps/creating-videos/) in `examples/video_elements`.
+  - Added an example to demonstrate [adding an app-controlled videos](https://www.canva.dev/docs/apps/creating-app-elements/) in `examples/app_video_elements`.
+- Added a `.prettierrc` config file to introduce some consistency across the Starter Kit repo, for developers who have forked this repo for their own projects are welcome to adjust to their own liking and preferences.
+- `eslint`
+  - Added arguments to the `formatjs/no-literal-string-in-jsx` rule to include App UI Kit props that should be localized (e.g. ariaLabel now is highlighted if developers are not using the recommend `react-intl` messaging pattern).
+
+    ```jsx
+    // ❌ Not recommended, messages will not be localized.
+    <Button ariaLabel="Click me">..</Button>
+    //      ~~~~~~~~~~~~~~~~~~~~
+    // error: Cannot have untranslated text in JSX eslintformatjs/no-literal-string-in-jsx
+
+
+    // ✅ Recommended, messages will be localized.
+    const intl = useIntl();
+    <Button .. ariaLabel={intl.formatMessage({..})} >..</Button>
+    ```
+
+  - Added a new rule to lint against inlining large assets, such as videos, images or audio in apps, which leads to larger and slower apps.
+
+### 🐞 Fixed
+
+- Fixed an issue where running `npm start` on an Ubuntu system would result in `Error: Cannot find module '@ngrok/ngrok-linux-x64-gnu`.
+- Fixed an issue where running `npm run extract` on Windows systems would generate an empty `messages_en.json` ([Github issue](https://github.com/formatjs/formatjs/issues/3854)).
+
+### 🔧 Changed
+
+- `@canva/app-i18n-kit`
+  - Upgraded `app-i18n-kit` to version `1.0.0`.
+- `@canva/app-ui-kit`
+  - Upgraded `app-ui-kit` to version `4.1.0`. Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/) for the list of changes.
+- Added instructions to the [README](README.md) for running an example.
+- Dependencies audit, upgrading all modules where possible:
+
+  ```text
+  @eslint/js                                9.9.0   →   9.12.0
+  @testing-library/react                   16.0.0   →   16.0.1
+  @types/jest                             29.5.12   →  29.5.13
+  @types/jsonwebtoken                       9.0.6   →    9.0.7
+  @types/react                             18.3.4   →  18.3.11
+  @types/react-dom                         18.0.11  →   18.3.1
+  @typescript-eslint/eslint-plugin          8.2.0   →    8.9.0
+  @typescript-eslint/parser                 8.2.0   →    8.9.0
+  cssnano                                   7.0.5   →    7.0.6
+  debug                                     4.3.6   →    4.3.7
+  eslint                                   8.57.1   →   9.12.0
+  eslint-plugin-formatjs                   4.13.3   →    5.0.0
+  eslint-plugin-jest                       28.8.0   →   28.8.3
+  eslint-plugin-react                      7.35.0   →   7.37.1
+  express                                  4.21.0   →   4.21.1
+  globals                                  15.9.0   →  15.11.0
+  ts-jest                                  29.2.4   →   29.2.5
+  webpack                                  5.94.0   →   5.95.0
+  webpack-dev-server                        5.0.4   →    5.1.0
+  ```
+
+- Moved `.env` to a `.env.template` and added to the `.gitignore`, a postinstall script now copies this locally.
+- Other minor improvements, cleanup and fixes of stale config.
+
 ## 2024-09-25
 
 ### 🔨 Breaking changes
@@ -151,10 +948,9 @@
 ### 🗑️ Removed
 
 - `@canva/preview`:
-
   - Removed `/sdk/preview`, as all of our preview SDKs are now published to NPM with an `@beta` tag. e.g. to install the preview `@canva/design` SDK, run the following command
 
-    ```
+    ```bash
     npm install @canva/design@beta
     ```
 
@@ -183,7 +979,6 @@
 ### 🧰 Added
 
 - `@canva/asset`
-
   - Upgraded to version `1.7.0` which has the following changes:
     - Added [asset.openColorSelector](https://www.canva.dev/docs/apps/using-color-selectors) which was previously in beta.
     - Added selectedColor prop to [asset.openColorSelector](https://www.canva.dev/docs/apps/using-color-selectors/#optional-step-5-handle-multiple-colors)
@@ -340,7 +1135,6 @@
 ### 🔧 Changed
 
 - `@canva/preview`
-
   - Update typings to [appProcess](http://canva.dev/docs/apps/api/platform-app-process/) API methods including `setOnDispose`, `registerOnMessage` and `requestClose`.
 
 - Updated `@canva/app-components` version in digital_asset_management example.
@@ -455,7 +1249,6 @@
 - `@canva/preview/asset`
   - Updated `requestFontSelection` and `findFonts` to `public`.
 - `@canva/app-ui-kit`
-
   - Upgraded `app-ui-kit` to version `3.3.0`. Please see the [changelog](https://www.canva.dev/docs/apps/app-ui-kit/changelog/).
 
 - Swapped out the community maintained `ngrok` package with the official `@ngrok/ngrok` SDK.
@@ -479,7 +1272,6 @@
   For more information, refer to our docs on [Supporting drag-and-drop](https://www.canva.dev/docs/apps/supporting-drag-drop/).
 
 - Removed references to the now deleted `components` directory from the following files:
-
   - `tsconfig.json`
   - `webpack.config.js`
   - `package.json`
@@ -557,10 +1349,9 @@
     - [@canva/user](https://www.npmjs.com/package/@canva/user)
   - Dependencies in [package.json](./package.json) were changed to use the NPM registry accordingly.
 - Updated node version in [.nvmrc](.nvmrc) to LTS version of [v20.10.0](https://nodejs.org/en/blog/release/v20.10.0)
-
   - Run the below command at the repo root to upgrade via [nvm](https://github.com/nvm-sh/nvm#intro)
 
-    ```
+    ```bash
     nvm install
     ```
 

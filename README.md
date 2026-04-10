@@ -8,8 +8,8 @@ This repo contains everything you need to get an app up and running in a matter 
 
 ## Requirements
 
-- Node.js `v18` or `v20.10.0`
-- npm `v9` or `v10`
+- Node.js `v24`
+- npm `v11`
 
 **Note:** To make sure you're running the correct version of Node.js, we recommend using a version manager, such as [nvm](https://github.com/nvm-sh/nvm#intro). The [.nvmrc](/.nvmrc) file in the root directory of this repo will ensure the correct version is used once you run `nvm install`.
 
@@ -51,7 +51,7 @@ To preview an app:
 
 The app will appear in the side panel.
 
-### (Optional) Step 3: Enable Hot Module Replacement
+### Step 3 (Optional): Enable Hot Module Replacement
 
 By default, every time you make a change to an app, you have to reload the entire app to see the results of those changes. If you enable [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) (HMR), changes will be reflected without a full reload, which significantly speeds up the development loop.
 
@@ -60,58 +60,93 @@ By default, every time you make a change to an app, you have to reload the entir
 To enable HMR:
 
 1. Navigate to an app via the [Your apps](https://www.canva.com/developers/apps).
-2. Select **Configure your app**.
-3. Copy the value from the **App origin** field. This value is unique to each app and cannot be customized.
-4. In the starter kit's directory, open the `.env` file.
-5. Set the `CANVA_APP_ORIGIN` environment variable to the value copied from the **App origin** field:
+1. Select **Security** -> **Credentials** -> **.env file**.
+1. Copy the `.env` file contents.
+1. Paste the contents into the starter kit's `.env` file. For example:
 
    ```bash
-   CANVA_APP_ORIGIN=# YOUR APP ORIGIN GOES HERE 
-   ```
-
-6. Set the `CANVA_HMR_ENABLED` environment variable to `true`:
-
-   ```bash
+   CANVA_APP_ORIGIN=https://app-aabbccddeeff.canva-apps.com
    CANVA_HMR_ENABLED=true
    ```
 
-7. Restart the local development server.
-8. Reload the app manually to ensure that HMR takes effect.
+1. Restart the local development server.
+1. Reload the app manually to ensure that HMR takes effect.
 
 <details>
   <summary>Previewing apps in Safari</summary>
 
-  By default, the development server is not HTTPS-enabled. This is convenient, as there's no need for a security certificate, but it prevents apps from being previewed in Safari.
+By default, the development server is not HTTPS-enabled. This is convenient, as there's no need for a security certificate, but it prevents apps from being previewed in Safari.
 
-  **Why Safari requires the development server to be HTTPS-enabled?**
+**Why does Safari require the development server to be HTTPS-enabled?**
 
-  Canva itself is served via HTTPS and most browsers prevent HTTPS pages from loading scripts via non-HTTPS connections. Chrome and Firefox make exceptions for local servers, such as `localhost`, but Safari does not, so if you're using Safari, the development server must be HTTPS-enabled.
+Canva itself is served via HTTPS and most browsers prevent HTTPS pages from loading scripts via non-HTTPS connections. Chrome and Firefox make exceptions for local servers, such as `localhost`, but Safari does not, so if you're using Safari, the development server must be HTTPS-enabled.
 
-  To learn more, see [Loading mixed-content resources](https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content#loading_mixed-content_resources).
+To learn more, see [Loading mixed-content resources](https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content#loading_mixed-content_resources).
 
-  To preview apps in Safari:
+To preview apps in Safari:
 
-  1. Start the development server with HTTPS enabled:
+1. Start the development server with HTTPS enabled:
 
-  ```bash
-  # Run the main app
-  npm start --use-https
+```bash
+# Run the main app
+npm start --use-https
 
-  # Run an example
-  npm start <example-name> --use-https
-  ```
+# Run an example
+npm start <example_name> --use-https
+```
 
-  2. Navigate to <https://localhost:8080>.
-  3. Bypass the invalid security certificate warning:
-    1. Click **Show details**.
-    2. Click **Visit website**.
-  4. In the Developer Portal, set the app's **Development URL** to <https://localhost:8080>.
-  5. Click preview (or refresh your app if it's already open).
+2. Navigate to <https://localhost:8080>.
+3. Bypass the invalid security certificate warning:
+   1. Click **Show details**.
+   2. Click **Visit website**.
+4. In the Developer Portal, set the app's **Development URL** to <https://localhost:8080>.
+5. Click preview (or refresh your app if it's already open).
 
-  You need to bypass the invalid security certificate warning every time you start the local server. A similar warning will appear in other browsers (and will need to be bypassed) whenever HTTPS is enabled.
+You need to bypass the invalid security certificate warning every time you start the local server. A similar warning will appear in other browsers (and will need to be bypassed) whenever HTTPS is enabled.
 
-  **Note**: If you are running your server on HTTPS (such as for testing on Safari) be sure to change the `CANVA_BACKEND_HOST` environment variable to `https://localhost:3001`.
+**Note**: If you are running your server on HTTPS (such as for testing on Safari) be sure to change the `CANVA_BACKEND_HOST` environment variable to `https://localhost:3001`.
+
 </details>
+
+### Step 4 (Optional): Setup the Canva Dev MCP Server
+
+If you're using AI coding tools, such as Cursor or Claude Code, you can connect to the Canva Dev MCP Server to supercharge your development workflow. See this [setup guide](https://www.canva.dev/docs/apps/mcp-server/) to get started.
+
+## Running an example
+
+The `examples` folder contains demonstration apps for a variety of Canva APIs.
+
+To see a list of all example apps, run the following command:
+
+```bash
+npm start examples
+```
+
+You can use arrow keys to navigate the list and press enter to run a specific example. It will look something like this:
+
+```bash
+  npm start examples
+
+  ? Which example would you like to run? ›
+  ❯   app elements > app element children
+      app elements > app embed elements
+      app elements > app image elements
+      app elements > app shape elements
+      app elements > app text elements
+      app elements > app video elements
+      assets and media > asset upload
+      assets and media > digital asset management
+      assets and media > fonts
+    ↓ assets and media > image editing overlay
+```
+
+To start a specific example app, run the following command:
+
+```bash
+npm start <example_category>/<example_name>
+// or simply
+npm start <example_name>
+```
 
 ## Running an example's backend
 
@@ -120,21 +155,22 @@ Some examples have a backend. This backend is defined in the example's `backend/
 To run examples that have a backend:
 
 1. Navigate to the [Your apps](https://www.canva.com/developers/apps) page.
-2. Copy the ID of an app from the **App ID** column in the apps table.
-3. In the starter kit's `.env` file, set `CANVA_APP_ID` to the ID of the app.
+1. Select the app you want to run the example with.
+1. Copy your environment variables from **Security** -> **Credentials** -> **.env file**.
+1. Paste them into the starter kit's `.env` file.
 
    For example:
 
    ```bash
    CANVA_APP_ID=AABBccddeeff
-   CANVA_APP_ORIGIN=#
+   CANVA_APP_ORIGIN=https://app-aabbccddeeff.canva-apps.com
    CANVA_BACKEND_PORT=3001
    CANVA_FRONTEND_PORT=8080
    CANVA_BACKEND_HOST=http://localhost:3001
-   CANVA_HMR_ENABLED=FALSE
+   CANVA_HMR_ENABLED=TRUE
    ```
 
-4. Start the example:
+1. Start the example:
 
    ```bash
    npm start fetch
