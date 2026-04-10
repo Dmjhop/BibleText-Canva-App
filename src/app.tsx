@@ -1,327 +1,60 @@
-/* eslint-disable no-console */
-import {
-  Button,
-  FormField,
-  NumberInput,
-  Rows,
-  SegmentedControl,
-  Select,
-  Text,
-  TextInput,
-} from "@canva/app-ui-kit"
-import { FormattedMessage, useIntl } from "react-intl"
-import * as styles from "styles/components.css"
-import { useAddElement } from "utils/use_add_element"
-import { useState, useEffect, use, useRef } from "react"
-import axios from "axios"
-import { error } from "console"
-import { CanvaError } from "@canva/error"
-import { nargs } from "yargs"
+import { Button, Rows, Text } from "@canva/app-ui-kit";
+import { addElementAtCursor, addElementAtPoint } from "@canva/design";
+import { requestOpenExternalUrl } from "@canva/platform";
+import { FormattedMessage, useIntl } from "react-intl";
+import * as styles from "styles/components.css";
+import { useFeatureSupport } from "@canva/app-hooks";
+import { SegmentedControl, FormField } from "@canva/app-ui-kit";
+import { useState } from "react";
+import { BIBLE_VERSIONS, type BibleVersionId } from "./constants";
+import { usfmToReference } from "./usfm";
+import { BOOK_LIST } from "./usfm";
+import { fetchVerse } from "./api";
+
+export const DOCS_URL = "https://www.canva.dev/docs/apps/";
 
 export const App = () => {
-  const addElement = useAddElement()
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [version, setVersion] = useState("NIV")
-  const [book, setBook] = useState(1)
-  const [chapter, setChapter] = useState(1)
-  const [verse, setVerse] = useState(1)
-  // let [empty, setEmpty] = useState("Good")
-
-  // ! GET BIBLE VERSE CONTENT
-
-  // async function getfetchVerse() {
-  //   console.log(
-  //     `Version: ${version}, Book: ${book}, Chapters: ${chapter}, Verses: ${verse}`
-  //   )
-
-  //   const renVersion = version
-  //   const renBook = book
-  //   const renChapter = chapter
-  //   const renVerse = verse
-
-  //   console.log(
-  //     `RENDERED Version: ${renVersion}, Book: ${renBook}, Chapters: ${renChapter}, Verses: ${renVerse}`
-  //   )
-  //   try {
-  //     // ? BOLLS LIFE API CALL
-  //     // const response = await fetch(
-  //     //   `https://bolls.life/get-verse/${renVersion}/${renBook}/${renChapter}/${renVerse}/`
-  //     // ${renVerse}?translation=${renVersion}
-  //     // ) // API Call for the Bible Verse
-  //     // ? RKEPLIN API CALL
-  //     const response = await fetch(
-  //       `https://bible-go-api.rkeplin.com/v1/books/${renBook}/chapters/${renChapter}/`
-  //     )
-  //     console.log(
-  //       `https://bible-go-api.rkeplin.com/v1/books/${renBook}/chapters/${renChapter}/`
-  //     )
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok")
-  //     } else if (response === undefined) {
-  //       throw new Error("The verse was undefined for whatever reason")
-  //     }
-  //     const result = await response.json()
-  //     // console.log(result)
-  //     const coolResult = result.text.replace("<br/>", " ")
-  //     // console.log(coolResult) //Getting rid of br random tags
-
-  //     addElement({
-  //       type: "text",
-  //       children: [`${coolResult}`],
-  //     })
-  //     console.log(`${coolResult}`)
-  //   } catch (error) {
-  //     setError(error)
-  //     if (error instanceof CanvaError) {
-  //       console.log("CanvaError:", error.code)
-  //     }
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
-
-  const booksOfBible = [
-    { value: 1, label: "Genesis" },
-    { value: 2, label: "Exodus" },
-    { value: 3, label: "Leviticus" },
-    { value: 4, label: "Numbers" },
-    { value: 5, label: "Deuteronomy" },
-    { value: 6, label: "Joshua" },
-    { value: 7, label: "Judges" },
-    { value: 8, label: "Ruth" },
-    { value: 9, label: "1 Samuel" },
-    { value: 10, label: "2 Samuel" },
-    { value: 11, label: "1 Kings" },
-    { value: 12, label: "2 Kings" },
-    { value: 13, label: "1 Chronicles" },
-    { value: 14, label: "2 Chronicles" },
-    { value: 15, label: "Ezra" },
-    { value: 16, label: "Nehemiah" },
-    { value: 17, label: "Esther" },
-    { value: 18, label: "Job" },
-    { value: 19, label: "Psalms" },
-    { value: 20, label: "Proverbs" },
-    { value: 21, label: "Ecclesiastes" },
-    { value: 22, label: "Song of Solomon" },
-    { value: 23, label: "Isaiah" },
-    { value: 24, label: "Jeremiah" },
-    { value: 25, label: "Lamentations" },
-    { value: 26, label: "Ezekiel" },
-    { value: 27, label: "Daniel" },
-    { value: 28, label: "Hosea" },
-    { value: 29, label: "Joel" },
-    { value: 30, label: "Amos" },
-    { value: 31, label: "Obadiah" },
-    { value: 32, label: "Jonah" },
-    { value: 33, label: "Micah" },
-    { value: 34, label: "Nahum" },
-    { value: 35, label: "Habakkuk" },
-    { value: 36, label: "Zephaniah" },
-    { value: 37, label: "Haggai" },
-    { value: 38, label: "Zechariah" },
-    { value: 39, label: "Malachi" },
-    { value: 40, label: "Matthew" },
-    { value: 41, label: "Mark" },
-    { value: 42, label: "Luke" },
-    { value: 43, label: "John" },
-    { value: 44, label: "Acts" },
-    { value: 45, label: "Romans" },
-    { value: 46, label: "1 Corinthians" },
-    { value: 47, label: "2 Corinthians" },
-    { value: 48, label: "Galatians" },
-    { value: 49, label: "Ephesians" },
-    { value: 50, label: "Philippians" },
-    { value: 51, label: "Colossians" },
-    { value: 52, label: "1 Thessalonians" },
-    { value: 53, label: "2 Thessalonians" },
-    { value: 54, label: "1 Timothy" },
-    { value: 55, label: "2 Timothy" },
-    { value: 56, label: "Titus" },
-    { value: 57, label: "Philemon" },
-    { value: 58, label: "Hebrews" },
-    { value: 59, label: "James" },
-    { value: 60, label: "1 Peter" },
-    { value: 61, label: "2 Peter" },
-    { value: 62, label: "1 John" },
-    { value: 63, label: "2 John" },
-    { value: 64, label: "3 John" },
-    { value: 65, label: "Jude" },
-    { value: 66, label: "Revelation" },
-  ]
-
-  // ! NEW GET BIBLE VERSE CONTENT
-  async function getfetchVerse() {
-    console.log(
-      `Version: ${version}, Book: ${book}, Chapters:${chapter}, Verses:${verse}`
-    )
-
-    const renVersion = version
-    const renBook = book
-    const renChapter = chapter
-    const renVerse = verse
-
-    const bookName =
-      booksOfBible.find((b) => b.value === renBook)?.label || "Genesis"
-
-    console.log(
-      `RENDERED Version: ${renVersion}, Book: ${bookName}, Chapter: ${renChapter}, Verse: ${renVerse}`
-    )
-
-    try {
-      setLoading(true)
-      setError(null)
-
-      const PROXY_BASE_URL = ""
-      const apiUrl = `${PROXY_BASE_URL}/api/verse/${encodeURIComponent(bookName)}/${renChapter}/${renVerse}?translation=${renVersion}`
-
-      console.log(`Proxy URL: ${apiUrl}`)
-
-      const response = await fetch(apiUrl, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const result = await response.json()
-      console.log(result)
-
-      if (!result.success) {
-        throw new Error(result.message || "Failed to fetch verse from proxy")
-      }
-
-      // Clean up the verse text
-      const verseText = result.text
-        .replace(/<[^>]*>/g, "") // Remove any remaining HTML tags
-        .replace(/\s+/g, " ") // Replace multiple spaces with single space
-        .trim() // Remove leading/trailing whitespace
-
-      const verseReference = `${result.reference} (${result.translation})`
-      const fullText = `"${verseText}" - ${verseReference}`
-
-      addElement({
-        type: "text",
-        children: [fullText],
-      })
-
-      console.log(`Added verse: ${fullText}`)
-    } catch (error) {
-      console.error("Error fetching verse:", error)
-      let errorMessage = "Failed to fetch verse"
-      if (error instanceof Error && error.message) {
-        errorMessage = error.message
-      }
-      setError(errorMessage)
-
-      // Add error message to canvas for user feedback
-      addElement({
-        type: "text",
-        children: [
-          `Error: Unable to fetch ${bookName} ${renChapter}:${renVerse}. ${errorMessage}`,
-        ],
-      })
-    } finally {
-      setLoading(false)
+  const isSupported = useFeatureSupport();
+  const addElement = [addElementAtPoint, addElementAtCursor].find((fn) =>
+    isSupported(fn),
+  );
+  const onClick = () => {
+    if (!addElement) {
+      return;
     }
-  }
 
-  // ! GET BIBLE VERSE REFERENCE
-
-  async function getVerseReference() {
-    const booksOfBible = [
-      { value: 1, label: "Genesis" },
-      { value: 2, label: "Exodus" },
-      { value: 3, label: "Leviticus" },
-      { value: 4, label: "Numbers" },
-      { value: 5, label: "Deuteronomy" },
-      { value: 6, label: "Joshua" },
-      { value: 7, label: "Judges" },
-      { value: 8, label: "Ruth" },
-      { value: 9, label: "1 Samuel" },
-      { value: 10, label: "2 Samuel" },
-      { value: 11, label: "1 Kings" },
-      { value: 12, label: "2 Kings" },
-      { value: 13, label: "1 Chronicles" },
-      { value: 14, label: "2 Chronicles" },
-      { value: 15, label: "Ezra" },
-      { value: 16, label: "Nehemiah" },
-      { value: 17, label: "Esther" },
-      { value: 18, label: "Job" },
-      { value: 19, label: "Psalms" },
-      { value: 20, label: "Proverbs" },
-      { value: 21, label: "Ecclesiastes" },
-      { value: 22, label: "Song of Solomon" },
-      { value: 23, label: "Isaiah" },
-      { value: 24, label: "Jeremiah" },
-      { value: 25, label: "Lamentations" },
-      { value: 26, label: "Ezekiel" },
-      { value: 27, label: "Daniel" },
-      { value: 28, label: "Hosea" },
-      { value: 29, label: "Joel" },
-      { value: 30, label: "Amos" },
-      { value: 31, label: "Obadiah" },
-      { value: 32, label: "Jonah" },
-      { value: 33, label: "Micah" },
-      { value: 34, label: "Nahum" },
-      { value: 35, label: "Habakkuk" },
-      { value: 36, label: "Zephaniah" },
-      { value: 37, label: "Haggai" },
-      { value: 38, label: "Zechariah" },
-      { value: 39, label: "Malachi" },
-      { value: 40, label: "Matthew" },
-      { value: 41, label: "Mark" },
-      { value: 42, label: "Luke" },
-      { value: 43, label: "John" },
-      { value: 44, label: "Acts" },
-      { value: 45, label: "Romans" },
-      { value: 46, label: "1 Corinthians" },
-      { value: 47, label: "2 Corinthians" },
-      { value: 48, label: "Galatians" },
-      { value: 49, label: "Ephesians" },
-      { value: 50, label: "Philippians" },
-      { value: 51, label: "Colossians" },
-      { value: 52, label: "1 Thessalonians" },
-      { value: 53, label: "2 Thessalonians" },
-      { value: 54, label: "1 Timothy" },
-      { value: 55, label: "2 Timothy" },
-      { value: 56, label: "Titus" },
-      { value: 57, label: "Philemon" },
-      { value: 58, label: "Hebrews" },
-      { value: 59, label: "James" },
-      { value: 60, label: "1 Peter" },
-      { value: 61, label: "2 Peter" },
-      { value: 62, label: "1 John" },
-      { value: 63, label: "2 John" },
-      { value: 64, label: "3 John" },
-      { value: 65, label: "Jude" },
-      { value: 66, label: "Revelation" },
-    ]
-    let bookName
-    for (const bookEntry of booksOfBible) {
-      if (bookEntry.value === book) {
-        bookName = bookEntry.label
-      }
-    }
-    const verseRef = `${bookName} ${chapter}:${verse} ${version}`
     addElement({
       type: "text",
-      children: [`${verseRef}`],
-    })
-    console.log(verseRef)
+      children: ["I am changing :) and work"],
+    });
+  };
+
+  const openExternalUrl = async (url: string) => {
+    const response = await requestOpenExternalUrl({
+      url,
+    });
+
+    if (response.status === "aborted") {
+      // user decided not to navigate to the link
+    }
+  };
+
+  const intl = useIntl();
+
+  const [bibleId, setBibleId] = useState<BibleVersionId>(111);
+  const [book, setBook] = useState("JHN");
+  const [chapter, setChapter] = useState("3");
+  const [verse, setVerse] = useState("16");
+  // const version = BIBLE_VERSIONS.find((v) => v.id === bibleId);
+  // const reference = usfmToReference(usfm, version.label);
+
+  async function handleFetchVerse() {
+    const usfm = `${book}.${chapter}.${verse}`;
+    const data = await fetchVerse(bibleId, usfm);
   }
 
-  // if (version === "" || book === 0 || chapter === 0 || verse === 0) {
-  //   setEmpty("Empty")
-  // }
-
-  // // !Final Verse API Call
-
-  const intl = useIntl()
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className={styles.scrollContainer}>
@@ -329,32 +62,54 @@ export const App = () => {
         <Text>
           <FormattedMessage
             defaultMessage="
-              Grab any verse using BibleText!
+              To make changes to this app, edit the <code>src/app.tsx</code> file,
+              then close and reopen the app in the editor to preview the changes.
             "
             description="Instructions for how to make changes to the app. Do not translate <code>src/app.tsx</code>."
             values={{
-              code: (chunks: any) => <code>{chunks}</code>,
+              code: (chunks) => <code>{chunks}</code>,
             }}
           />
         </Text>
-        {/* Bible Version Rendering */}
+        <Button
+          variant="primary"
+          onClick={onClick}
+          disabled={!addElement}
+          tooltipLabel={
+            !addElement
+              ? intl.formatMessage({
+                  defaultMessage:
+                    "This feature is not supported in the current page",
+                  description:
+                    "Tooltip label for when a feature is not supported in the current design",
+                })
+              : undefined
+          }
+          stretch
+        >
+          {intl.formatMessage({
+            defaultMessage: "Do something cool",
+            description:
+              "Button text to do something cool. Creates a new text element when pressed.",
+          })}
+        </Button>
+        <Button variant="secondary" onClick={() => openExternalUrl(DOCS_URL)}>
+          {intl.formatMessage({
+            defaultMessage: "Open Canva Apps SDK docs",
+            description:
+              "Button text to open Canva Apps SDK docs. Opens an external URL when pressed.",
+          })}
+        </Button>
         <FormField
-          label="Version"
-          value={version}
-          description="Being updated over time :)"
-          control={(props) => (
+          label="Translation"
+          control={() => (
             <SegmentedControl
-              {...props}
-              onChange={(value) => {
-                setVersion(value)
-                console.log(value)
-              }}
-              options={[
-                { label: "NIV", value: "NIV" },
-                { label: "NLT", value: "NLT" },
-                { label: "ESV", value: "ESV" },
-                { label: "MSG", value: "MSG" },
-              ]}
+              value={String(bibleId)}
+              options={BIBLE_VERSIONS.map((v) => ({
+                label: v.label,
+                value: String(v.id),
+              }))}
+              onChange={(value) => setBibleId(Number(value) as BibleVersionId)}
             />
           )}
         />
@@ -367,77 +122,13 @@ export const App = () => {
               {...props}
               id="chosenBook"
               onChange={(value) => {
-                setBook(value)
-                console.log(value)
+                setBook(value);
+                console.log(value);
               }}
-              options={[
-                { value: 1, label: "Genesis" },
-                { value: 2, label: "Exodus" },
-                { value: 3, label: "Leviticus" },
-                { value: 4, label: "Numbers" },
-                { value: 5, label: "Deuteronomy" },
-                { value: 6, label: "Joshua" },
-                { value: 7, label: "Judges" },
-                { value: 8, label: "Ruth" },
-                { value: 9, label: "1 Samuel" },
-                { value: 10, label: "2 Samuel" },
-                { value: 11, label: "1 Kings" },
-                { value: 12, label: "2 Kings" },
-                { value: 13, label: "1 Chronicles" },
-                { value: 14, label: "2 Chronicles" },
-                { value: 15, label: "Ezra" },
-                { value: 16, label: "Nehemiah" },
-                { value: 17, label: "Esther" },
-                { value: 18, label: "Job" },
-                { value: 19, label: "Psalms" },
-                { value: 20, label: "Proverbs" },
-                { value: 21, label: "Ecclesiastes" },
-                { value: 22, label: "Song of Solomon" },
-                { value: 23, label: "Isaiah" },
-                { value: 24, label: "Jeremiah" },
-                { value: 25, label: "Lamentations" },
-                { value: 26, label: "Ezekiel" },
-                { value: 27, label: "Daniel" },
-                { value: 28, label: "Hosea" },
-                { value: 29, label: "Joel" },
-                { value: 30, label: "Amos" },
-                { value: 31, label: "Obadiah" },
-                { value: 32, label: "Jonah" },
-                { value: 33, label: "Micah" },
-                { value: 34, label: "Nahum" },
-                { value: 35, label: "Habakkuk" },
-                { value: 36, label: "Zephaniah" },
-                { value: 37, label: "Haggai" },
-                { value: 38, label: "Zechariah" },
-                { value: 39, label: "Malachi" },
-                { value: 40, label: "Matthew" },
-                { value: 41, label: "Mark" },
-                { value: 42, label: "Luke" },
-                { value: 43, label: "John" },
-                { value: 44, label: "Acts" },
-                { value: 45, label: "Romans" },
-                { value: 46, label: "1 Corinthians" },
-                { value: 47, label: "2 Corinthians" },
-                { value: 48, label: "Galatians" },
-                { value: 49, label: "Ephesians" },
-                { value: 50, label: "Philippians" },
-                { value: 51, label: "Colossians" },
-                { value: 52, label: "1 Thessalonians" },
-                { value: 53, label: "2 Thessalonians" },
-                { value: 54, label: "1 Timothy" },
-                { value: 55, label: "2 Timothy" },
-                { value: 56, label: "Titus" },
-                { value: 57, label: "Philemon" },
-                { value: 58, label: "Hebrews" },
-                { value: 59, label: "James" },
-                { value: 60, label: "1 Peter" },
-                { value: 61, label: "2 Peter" },
-                { value: 62, label: "1 John" },
-                { value: 63, label: "2 John" },
-                { value: 64, label: "3 John" },
-                { value: 65, label: "Jude" },
-                { value: 66, label: "Revelation" },
-              ]}
+              options={BOOK_LIST.map((b) => ({
+                value: b.code,
+                label: b.name,
+              }))}
             />
           )}
         />
@@ -447,14 +138,10 @@ export const App = () => {
           value={chapter}
           control={(props) => (
             <NumberInput
-              {...props}
-              onChange={(value) => {
-                setChapter(value ?? 1)
-                console.log(value)
-              }}
-              max={150}
-              maxLength={3}
               min={1}
+              max={150}
+              value={chapter}
+              onChange={(value) => setChapter(Number(value))}
             />
           )}
         />
@@ -464,53 +151,14 @@ export const App = () => {
           value={verse}
           control={(props) => (
             <NumberInput
-              {...props}
-              id="chosenVerse"
-              onChange={(value) => {
-                setVerse(value ?? 1)
-                console.log(value)
-              }}
-              max={176}
-              maxLength={3}
               min={1}
+              max={176}
+              value={verse}
+              onChange={(value) => setVerse(Number(value))}
             />
           )}
         />
-
-        <Button
-          variant="primary"
-          // disabled={empty === "Empty"}
-          onClick={getfetchVerse}
-          stretch>
-          {intl.formatMessage({
-            defaultMessage: "Generate Bible Verse",
-            description:
-              "Button text to do something cool. Creates a new text element when pressed.",
-          })}
-        </Button>
-        <Button
-          variant="primary"
-          // disabled={empty === "Empty"}
-          onClick={getVerseReference}
-          stretch>
-          {intl.formatMessage({
-            defaultMessage: "Generate Verse Reference",
-            description:
-              "Button text to do something cool. Creates a new text element when pressed.",
-          })}
-        </Button>
-        <Text>
-          <FormattedMessage
-            defaultMessage='
-              Note: Depending on the Verse you generate, it might still come with the associated title of that passage of scripture or a "<br/>". It is a bug being worked on at the moment. :)
-            '
-            description="Instructions for how to make changes to the app. Do not translate <code>src/app.tsx</code>."
-            values={{
-              code: (chunks: any) => <code>{chunks}</code>,
-            }}
-          />
-        </Text>
       </Rows>
     </div>
-  )
-}
+  );
+};
